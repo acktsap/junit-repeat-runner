@@ -4,6 +4,8 @@
 
 package acktsap.test;
 
+import static java.util.Optional.ofNullable;
+
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -23,7 +25,10 @@ public class RepeatRunner extends BlockJUnit4ClassRunner {
 
   @Override
   protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
-    return super.methodInvoker(method, test);
+    return ofNullable(method.getAnnotation(Repeat.class))
+        .map(r -> new RepeatInvokeMethod(r.value(), method, test))
+        .map(Statement.class::cast)
+        .orElse(new NoRepeatInvokeMethod(method, test));
   }
 
 }
