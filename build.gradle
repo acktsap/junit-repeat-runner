@@ -1,0 +1,66 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+  }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'checkstyle'     // lint
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  jcenter()
+}
+
+dependencies {
+  compileOnly "org.projectlombok:lombok:${lombokVersion}"
+  implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+  runtimeOnly "ch.qos.logback:logback-classic:${logbackVersion}"
+
+  testImplementation "org.projectlombok:lombok:${lombokVersion}"
+  testImplementation "junit:junit:${junitVersion}"
+}
+
+
+/* java-library */
+
+java {
+  sourceCompatibility = sourceJavaVersion
+  targetCompatibility = targetJavaVersion
+  withJavadocJar()
+  withSourcesJar()
+}
+
+javadoc {
+  if(JavaVersion.current().isJava9Compatible()) {
+    options.addBooleanOption('html5', true)
+  }
+}
+
+
+/* maven-publish */
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      artifactId = project.name
+      from components.java
+    }
+  }
+}
+
+
+/* checkstyle */
+
+checkstyle {
+  toolVersion checkstyleVersion
+  sourceSets = [ project.sourceSets.main ] // exclude test codes
+  configFile = file("${project.rootProject.projectDir}/checkstyle.xml")
+}
+
