@@ -8,6 +8,12 @@ import java.util.Objects;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+/**
+ * An not repeating {@link Statement}.
+ *
+ * @author acktsap
+ * @since 0.1
+ */
 public class NoRepeatInvokeMethod extends Statement {
 
   protected final FrameworkMethod testMethod;

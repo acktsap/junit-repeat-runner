@@ -11,6 +11,28 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
+/**
+ * A custom {@link org.junit.runner.Runner} for repeating test.
+ *
+ * <p>Usage:
+ *
+ * <pre>
+ *
+ * &#064;RunWith(RepeatRunner.class)
+ * public class SomeTest {
+ *
+ *   &#064;Test
+ *   &#064;Repeat(10)
+ *   public void repeat10Times() {
+ *     // repeat 10 times
+ *   }
+ * }
+ *
+ * </pre>
+ *
+ * @author acktsap
+ * @since 0.1
+ */
 public class RepeatRunner extends BlockJUnit4ClassRunner {
 
   /**
