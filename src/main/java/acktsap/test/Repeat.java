@@ -39,4 +39,11 @@ public @interface Repeat {
    */
   int value();
 
+  /**
+   * A repeat parallelism. It should be &gt; 0. Default is 1.
+   *
+   * @return a parallelism
+   */
+  int parallelism() default 1;
+
 }

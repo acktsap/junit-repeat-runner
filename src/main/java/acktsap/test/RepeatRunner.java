@@ -50,7 +50,9 @@ public class RepeatRunner extends BlockJUnit4ClassRunner {
   protected Statement classBlock(final RunNotifier notifier) {
     final Statement classBlock = super.classBlock(notifier);
     return ofNullable(getTestClass().getAnnotation(Repeat.class))
-        .map(r -> new RepeatClassBlock(r.value(), classBlock))
+        .map(r -> r.parallelism() > 1
+            ? new ConcurrentRepeatClassBlock(r.parallelism(), r.value(), classBlock)
+            : new RepeatClassBlock(r.value(), classBlock))
         .map(Statement.class::cast)
         .orElse(new NoRepeatClassBlock(classBlock));
   }
@@ -58,7 +60,9 @@ public class RepeatRunner extends BlockJUnit4ClassRunner {
   @Override
   protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
     return ofNullable(method.getAnnotation(Repeat.class))
-        .map(r -> new RepeatInvokeMethod(r.value(), method, test))
+        .map(r -> r.parallelism() > 1
+            ? new ConcurrentRepeatInvokeMethod(r.parallelism(), r.value(), method, test)
+            : new RepeatInvokeMethod(r.value(), method, test))
         .map(Statement.class::cast)
         .orElse(new NoRepeatInvokeMethod(method, test));
   }
