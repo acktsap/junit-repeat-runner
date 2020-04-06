@@ -1,5 +1,7 @@
 # JUnit Repeat Runner
 
+A custom junit runner for junit 4.
+
 ## Build
 
 - Prerequisite
@@ -27,13 +29,14 @@ Gradle
 
 ```
 dependencies {
-  implementation "acktsap:junit-repeat-runner:${version}"
+  testImplementation "junit:junit:4.12"  // need junit
+  testImplementation "acktsap:junit-repeat-runner:${version}"
 }
 ```
 
 ## Usage
 
-Repeat test method.
+Repeat a test method.
 
 ```java
 @RunWith(RepeatRunner.class)
@@ -46,7 +49,7 @@ public class SomeTest {
 }
 ```
 
-Repeat test method with parallelism.
+Repeat a test method in parallel.
 
 ```java
 @RunWith(RepeatRunner.class)
@@ -54,7 +57,7 @@ public class SomeTest {
   @Test
   @Repeat(value = 5, parallelism = 3)
   public void testRepeat5Parallelism3() {
-    // repeat 5 times in 3 thread
+    // repeat 5 times on 3 threads
   }
 }
 ```
@@ -83,7 +86,7 @@ Repeat all test methods in a class in parallel.
 @RunWith(RepeatRunner.class)
 @Repeat(value = 5, parallelism = 3)
 public class SomeTest {
-  // repeat 5 times in a 3 thread
+  // repeat 5 times on 3 threads
 
   @Test
   public void test1() {

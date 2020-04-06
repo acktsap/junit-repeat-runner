@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  *   &#064;Test
  *   &#064;Repeat(value = 10, parallelism = 3)
  *   public void repeat10TimesParallelism3() {
- *     // repeat 10 times in a 3 thread
+ *     // repeat 10 times on 3 threads
  *   }
  * }
  *
@@ -51,7 +51,7 @@ import java.lang.annotation.Target;
  * &#064;Repeat(value = 10, parallelism = 3)
  * public class SomeTest {
  *
- *   // repeat 10 times in a 3 thread
+ *   // repeat 10 times on 3 threads
  *
  *   &#064;Test
  *   public void test1() {

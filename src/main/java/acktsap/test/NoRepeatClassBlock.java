@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.junit.runners.model.Statement;
 
 /**
- * A non-repeating class block.
+ * An non-repeating class block.
  *
  * @author acktsap
  * @since 0.2
