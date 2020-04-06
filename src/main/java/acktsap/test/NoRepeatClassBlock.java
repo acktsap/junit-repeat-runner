@@ -17,7 +17,7 @@ public class NoRepeatClassBlock extends Statement {
   protected final Statement classBlock;
 
   /**
-   * Create a {@code ClassBlock} instance.
+   * Create an {@code NoRepeatClassBlock} instance.
    *
    * @param classBlock a class block
    */
