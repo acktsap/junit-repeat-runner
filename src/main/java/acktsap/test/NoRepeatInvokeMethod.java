@@ -21,7 +21,7 @@ public class NoRepeatInvokeMethod extends Statement {
   protected final Object target;
 
   /**
-   * Create a {@code NoRepeatInvokeMethod} instance.
+   * Create an {@code NoRepeatInvokeMethod} instance.
    *
    * @param testMethod a test method to invoke
    * @param target     an invocation target
