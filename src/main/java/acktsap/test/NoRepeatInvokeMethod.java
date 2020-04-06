@@ -9,7 +9,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 /**
- * An not repeating {@link Statement}.
+ * An non-repeating invoke method.
  *
  * @author acktsap
  * @since 0.1

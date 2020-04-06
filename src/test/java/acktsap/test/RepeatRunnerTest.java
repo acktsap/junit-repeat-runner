@@ -9,12 +9,44 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Method;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 @RunWith(JUnit4.class)
 public class RepeatRunnerTest {
+
+  @Test
+  public void testClassBlock() throws Throwable {
+    final Object[][] parameters = {
+        {ClassRepeat1TestClass.class, 1},
+        {ClassRepeat5TestClass.class, 5},
+    };
+
+    for (final Object[] parameter : parameters) {
+      // when
+      final Class<?> klass = (Class<?>) parameter[0];
+      final int count = (int) parameter[1];
+      final RepeatRunner repeatRunner = new RepeatRunner(klass);
+
+      // then
+      final Statement statement = repeatRunner.classBlock(new RunNotifier());
+      assertEquals(RepeatClassBlock.class, statement.getClass());
+      assertEquals(count, ((RepeatClassBlock) statement).getCount());
+    }
+  }
+
+  @Test
+  public void shouldReturnNoRepeatClassBlockOnNoRepeat() throws Throwable {
+    // when
+    final Class<?> klass = NoRepeatTestClass.class;
+    final RepeatRunner repeatRunner = new RepeatRunner(klass);
+
+    // then
+    final Statement statement = repeatRunner.classBlock(new RunNotifier());
+    assertEquals(NoRepeatClassBlock.class, statement.getClass());
+  }
 
   @SuppressWarnings("unchecked")
   @Test
@@ -25,14 +57,14 @@ public class RepeatRunnerTest {
         {"repeat10", 10},
     };
 
-    final Class<RepeatRunnerTestClass> klass = RepeatRunnerTestClass.class;
+    final Class<MethodRepeatRunnerTestClass> klass = MethodRepeatRunnerTestClass.class;
     final RepeatRunner repeatRunner = new RepeatRunner(klass);
     for (final Object[] parameter : parameters) {
       // when
       final String name = (String) parameter[0];
       final int count = (int) parameter[1];
       final Method method = klass.getMethod(name);
-      final RepeatRunnerTestClass instance = klass.newInstance();
+      final MethodRepeatRunnerTestClass instance = klass.newInstance();
 
       // then
       final Statement statement = repeatRunner
@@ -45,10 +77,10 @@ public class RepeatRunnerTest {
   @Test
   public void shouldReturnNoRepeatInvokeMethodOnNoRepeat() throws Throwable {
     // given
-    final Class<RepeatRunnerTestClass> klass = RepeatRunnerTestClass.class;
+    final Class<MethodRepeatRunnerTestClass> klass = MethodRepeatRunnerTestClass.class;
     final RepeatRunner repeatRunner = new RepeatRunner(klass);
     final Method method = klass.getMethod("noRepeat");
-    final RepeatRunnerTestClass instance = klass.newInstance();
+    final MethodRepeatRunnerTestClass instance = klass.newInstance();
 
     // then
     final Statement statement = repeatRunner
@@ -59,10 +91,10 @@ public class RepeatRunnerTest {
   @Test
   public void shouldThrowErrorOnInvalidRepeat() throws Throwable {
     // given
-    final Class<RepeatRunnerTestClass> klass = RepeatRunnerTestClass.class;
+    final Class<MethodRepeatRunnerTestClass> klass = MethodRepeatRunnerTestClass.class;
     final RepeatRunner repeatRunner = new RepeatRunner(klass);
     final Method method = klass.getMethod("invalidRepeat");
-    final RepeatRunnerTestClass instance = klass.newInstance();
+    final MethodRepeatRunnerTestClass instance = klass.newInstance();
 
     try {
       // when
@@ -72,7 +104,7 @@ public class RepeatRunnerTest {
     }
   }
 
-  public static class RepeatRunnerTestClass {
+  public static class MethodRepeatRunnerTestClass {
 
     @Test
     @Repeat(1)
@@ -97,6 +129,32 @@ public class RepeatRunnerTest {
     @Test
     @Repeat(0)
     public void invalidRepeat() {
+    }
+
+  }
+
+  @Repeat(1)
+  public static class ClassRepeat1TestClass {
+
+    @Test
+    public void test() {
+    }
+
+  }
+
+  @Repeat(5)
+  public static class ClassRepeat5TestClass {
+
+    @Test
+    public void test() {
+    }
+
+  }
+
+  public static class NoRepeatTestClass {
+
+    @Test
+    public void test() {
     }
 
   }

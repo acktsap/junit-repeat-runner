@@ -6,6 +6,7 @@ package acktsap.test;
 
 import static java.util.Optional.ofNullable;
 
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -43,6 +44,15 @@ public class RepeatRunner extends BlockJUnit4ClassRunner {
    */
   public RepeatRunner(final Class<?> klass) throws InitializationError {
     super(klass);
+  }
+
+  @Override
+  protected Statement classBlock(final RunNotifier notifier) {
+    final Statement classBlock = super.classBlock(notifier);
+    return ofNullable(getTestClass().getAnnotation(Repeat.class))
+        .map(r -> new RepeatClassBlock(r.value(), classBlock))
+        .map(Statement.class::cast)
+        .orElse(new NoRepeatClassBlock(classBlock));
   }
 
   @Override

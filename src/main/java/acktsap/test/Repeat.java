@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @since 0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Repeat {
 
   /**
