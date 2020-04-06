@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(RepeatRunner.class)
+@Repeat(3)
 public class RepeatRunnerIT {
 
   protected static Map<String, AtomicInteger> expected;
