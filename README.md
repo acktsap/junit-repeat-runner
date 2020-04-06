@@ -33,6 +33,8 @@ dependencies {
 
 ## Usage
 
+Repeat test method.
+
 ```java
 @RunWith(RepeatRunner.class)
 public class SomeTest {
@@ -41,11 +43,54 @@ public class SomeTest {
   public void testRepeat5() {
     // repeat 5 times
   }
+}
+```
+
+Repeat test method with parallelism.
+
+```java
+@RunWith(RepeatRunner.class)
+public class SomeTest {
+  @Test
+  @Repeat(value = 5, parallelism = 3)
+  public void testRepeat5Parallelism3() {
+    // repeat 5 times in 3 thread
+  }
+}
+```
+
+Repeat all test methods in a class.
+
+```java
+@RunWith(RepeatRunner.class)
+@Repeat(3)
+public class SomeTest {
+  // repeat 3 times
 
   @Test
-  @Repeat(10)
-  public void testRepeat10() {
-    // repeat 10 times
+  public void test1() {
+  }
+
+  @Test
+  public void test2() {
+  }
+}
+```
+
+Repeat all test methods in a class in parallel.
+
+```java
+@RunWith(RepeatRunner.class)
+@Repeat(value = 5, parallelism = 3)
+public class SomeTest {
+  // repeat 5 times in a 3 thread
+
+  @Test
+  public void test1() {
+  }
+
+  @Test
+  public void test2() {
   }
 }
 ```

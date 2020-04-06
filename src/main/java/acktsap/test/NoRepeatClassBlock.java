@@ -11,6 +11,7 @@ import org.junit.runners.model.Statement;
  * A non-repeating class block.
  *
  * @author acktsap
+ * @since 0.2
  */
 public class NoRepeatClassBlock extends Statement {
 

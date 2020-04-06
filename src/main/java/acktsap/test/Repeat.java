@@ -22,6 +22,45 @@ import java.lang.annotation.Target;
  *   }
  * }
  *
+ * &#064;RunWith(RepeatRunner.class)
+ * public class SomeTest {
+ *
+ *   &#064;Test
+ *   &#064;Repeat(value = 10, parallelism = 3)
+ *   public void repeat10TimesParallelism3() {
+ *     // repeat 10 times in a 3 thread
+ *   }
+ * }
+ *
+ * &#064;RunWith(RepeatRunner.class)
+ * &#064;Repeat(3)
+ * public class SomeTest {
+ *
+ *   // repeat 3 times
+ *
+ *   &#064;Test
+ *   public void test1() {
+ *   }
+ *
+ *   &#064;Test
+ *   public void test2() {
+ *   }
+ * }
+ *
+ * &#064;RunWith(RepeatRunner.class)
+ * &#064;Repeat(value = 10, parallelism = 3)
+ * public class SomeTest {
+ *
+ *   // repeat 10 times in a 3 thread
+ *
+ *   &#064;Test
+ *   public void test1() {
+ *   }
+ *
+ *   &#064;Test
+ *   public void test2() {
+ *   }
+ * }
  * </pre>
  *
  * @author acktsap
@@ -43,6 +82,7 @@ public @interface Repeat {
    * A repeat parallelism. It should be &gt; 0. Default is 1.
    *
    * @return a parallelism
+   * @since 0.2
    */
   int parallelism() default 1;
 
