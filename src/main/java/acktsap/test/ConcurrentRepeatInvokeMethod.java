@@ -18,6 +18,7 @@ import org.junit.runners.model.Statement;
  * A concurrent repeating invoke method.
  *
  * @author acktsap
+ * @since 0.2
  */
 public class ConcurrentRepeatInvokeMethod extends Statement {
 

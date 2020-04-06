@@ -11,6 +11,7 @@ import org.junit.runners.model.Statement;
  * A repeating class block.
  *
  * @author acktsap
+ * @since 0.2
  */
 public class RepeatClassBlock extends Statement {
 
