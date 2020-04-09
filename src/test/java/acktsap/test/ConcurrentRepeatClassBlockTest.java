@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,19 +24,16 @@ public class ConcurrentRepeatClassBlockTest {
     final int parallelism = 5;
     final int expected = 10;
     final Set<String> usedThreads = synchronizedSet(new HashSet<>());
-    final CountDownLatch latch = new CountDownLatch(parallelism);
     final AtomicInteger count = new AtomicInteger(0);
     final ConcurrentRepeatClassBlock noRepeatClassBlock = new ConcurrentRepeatClassBlock(
         parallelism, expected, new Statement() {
       @Override
       public void evaluate() throws Throwable {
         usedThreads.add(Thread.currentThread().getName());
-        latch.countDown();
         count.incrementAndGet();
       }
     });
     noRepeatClassBlock.evaluate();
-    latch.await();
 
     // then
     assertEquals(parallelism, usedThreads.size());

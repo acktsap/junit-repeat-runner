@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,16 +28,14 @@ public class ConcurrentRepeatInvokeMethodTest {
         ConcurrentRepeatStatementTestClass.class;
 
     // when
-    final CountDownLatch latch = new CountDownLatch(parallelism);
     final AtomicInteger count = new AtomicInteger(0);
     final FrameworkMethod method = new FrameworkMethod(klass.getMethod("test"));
     final ConcurrentRepeatStatementTestClass instance = klass
-        .getConstructor(Set.class, CountDownLatch.class, AtomicInteger.class)
-        .newInstance(usedThreads, latch, count);
+        .getConstructor(Set.class, AtomicInteger.class)
+        .newInstance(usedThreads, count);
     final ConcurrentRepeatInvokeMethod repeatInvokeMethod = new ConcurrentRepeatInvokeMethod(
         parallelism, expectedCount, method, instance);
     repeatInvokeMethod.evaluate();
-    latch.await();
 
     // then
     assertEquals(parallelism, usedThreads.size());
@@ -81,26 +78,21 @@ public class ConcurrentRepeatInvokeMethodTest {
 
     protected final Set<String> usedThreads;
 
-    protected final CountDownLatch countDownLatch;
-
     protected final AtomicInteger count;
 
     public ConcurrentRepeatStatementTestClass() {
       this.usedThreads = null;
-      this.countDownLatch = null;
       this.count = null;
     }
 
     public ConcurrentRepeatStatementTestClass(final Set<String> usedThreads,
-        final CountDownLatch countDownLatch, final AtomicInteger count) {
+        final AtomicInteger count) {
       this.usedThreads = synchronizedSet(usedThreads);
-      this.countDownLatch = countDownLatch;
       this.count = count;
     }
 
     public void test() {
       usedThreads.add(Thread.currentThread().getName());
-      countDownLatch.countDown();
       count.incrementAndGet();
     }
 
